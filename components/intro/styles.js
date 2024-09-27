@@ -1,14 +1,13 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 
-// 글자가 위에서 아래로 떨어지는 애니메이션 정의
-const fallAnimation = keyframes`
-  0% {
-    transform: translateY(-100vh); /* 화면 위에서 시작 */
-  }
-  100% {
-    transform: translateY(100vh); /* 화면 아래로 이동 */
-  }
-`;
+// Rain 테마의 색상 배열
+const rainColors = [
+  "#4A90E2", // 차가운 파란색
+  "#5C6BC0", // 은은한 보라색
+  "#37474F", // 어두운 회색
+  "#78909C", // 밝은 회색
+  "#455A64", // 진한 남색
+];
 
 export const Container = styled.div`
   display: flex;
@@ -17,24 +16,23 @@ export const Container = styled.div`
   justify-content: center;
   width: 100vw;
   height: 100vh;
-  overflow: hidden; /* 텍스트가 화면을 넘지 않도록 설정 */
-  position: relative; /* 자식 요소들이 절대 위치로 떠다니도록 설정 */
-  background-color: #282c34; /* 배경색 설정 (선택 사항) */
+  background-color: #000; /* 배경색 검정 */
+  position: relative; /* 자식 요소들을 절대 위치로 배치하기 위해 relative 설정 */
+  margin: 0;
+  padding: 0;
 `;
 
 export const Text = styled.div`
-  position: absolute; /* 텍스트가 자유롭게 이동할 수 있도록 절대 위치 설정 */
-  font-size: ${({ index }) => 1 + (index % 100) * 0.3}vw; /* 글자 크기 변형 */
-  color: ${({ index }) => `hsl(200, 100%, ${(index % 10) * 10 + 30}%)`}; /* hue 고정, 밝기 변화 */
-  opacity: ${({ index }) => 0.5 + (index % 10) * 0.05}; /* 투명도 변화 */
+  font-size: ${({ index }) => 1 + (index % 10) * 0.3}vw; /* 글자 크기 변화 */
+  color: ${({ index }) => rainColors[index % rainColors.length]}; /* Rain 테마 색상 적용 */
+  transform: rotate(${({ index }) => (index % 10) * 15 - 45}deg); /* 랜덤 회전 */
+  margin: 10px;
   font-weight: bold;
-  top: -10vh; /* 화면 위에서 시작 */
-  left: ${({ index }) => Math.random() * 100}vw; /* 텍스트를 랜덤한 위치에 배치 */
-  animation: ${fallAnimation} ${({ index }) => 5 + Math.random() * 5}s linear infinite; /* 떨어지는 애니메이션 */
-  
-  /* 호버 효과 */
+  opacity: ${({ index }) => 0.5 + (index % 10) * 0.5}; /* 투명도 변화 */
+  transition: all 0.3s ease-in-out;
+
   &:hover {
-    transform: scale(1.2); /* 호버 시 크기 확대 */
+    transform: scale(4) rotate(0deg); /* 호버 시 확대 및 회전 효과 */
     opacity: 1;
   }
 `;
